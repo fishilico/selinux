@@ -49,7 +49,7 @@
 	 * (the strings are copied, originals not freed). */
 
 	static int semanage_array2plist(
-		semanage_handle_t* handle,
+		semanage_handle_t* handle __attribute__ ((unused)),
 		void** arr, 
 		unsigned int asize, 
 		swig_type_info* swig_type,
