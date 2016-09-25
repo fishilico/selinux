@@ -2,7 +2,8 @@ M4 ?= m4
 MKDIR ?= mkdir
 EXE ?= libsepol-tests
 
-CFLAGS += -g3 -gdwarf-2 -O0 -Wall -W -Wundef -Wmissing-noreturn -Wmissing-format-attribute -Wno-unused-parameter -Werror
+#CFLAGS += -g3 -gdwarf-2 -O0 -Wall -W -Wundef -Wmissing-noreturn -Wmissing-format-attribute -Wno-unused-parameter -Werror
+CFLAGS += -Wno-unused-parameter
 
 # Statically link libsepol on the assumption that we are going to
 # be testing internal functions.
@@ -27,6 +28,11 @@ policysrc := $(foreach path,$(testsuites),$(wildcard $(path)/*.conf))
 stdpol := $(addsuffix .std,$(policysrc))
 mlspol := $(addsuffix .mls,$(policysrc))
 policies := $(stdpol) $(mlspol)
+
+# Compiler flags, using cc-disable-warning from Linux's scripts/Kbuild.include
+try-run = $(shell set -e; if ($(1)) >/dev/null 2>&1; then echo "$(2)"; else echo "$(3)"; fi)
+cc-disable-warning = $(call try-run,$(CC) -Werror -W$(strip $(1)) -E - < /dev/null,-Wno-$(strip $(1)))
+override CFLAGS += $(call cc-disable-warning, extra-semi-stmt)  # Because of CU_ASSERT_FATAL
 
 all: $(EXE) $(policies)
 policies: $(policies)

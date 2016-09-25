@@ -104,9 +104,9 @@ FTS_LDLIBS ?=
 
 override CFLAGS += -I../include -D_GNU_SOURCE $(DISABLE_FLAGS) $(PCRE_CFLAGS)
 
-SWIG_CFLAGS += -Wno-error -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter \
-		-Wno-shadow -Wno-uninitialized -Wno-missing-prototypes -Wno-missing-declarations \
-		-Wno-deprecated-declarations
+#SWIG_CFLAGS += -Wno-error -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter \
+#		-Wno-shadow -Wno-uninitialized -Wno-missing-prototypes -Wno-missing-declarations
+SWIG_CFLAGS += -Wno-deprecated-declarations
 
 RANLIB ?= ranlib
 
@@ -138,16 +138,17 @@ SWIGRUBY = swig -Wall -ruby -o $(SWIGRUBYCOUT) -outdir ./ $(DISABLE_FLAGS)
 
 all: $(LIBA) $(LIBSO) $(LIBPC)
 
+comma := ,
 pywrap: all selinuxswig_python_exception.i
-	CFLAGS="$(CFLAGS) $(SWIG_CFLAGS)" $(PYTHON) setup.py build_ext
+	CFLAGS="$(CFLAGS) $(SWIG_CFLAGS)" LDFLAGS="$(subst $(comma)-no-undefined,,$(LDFLAGS))" $(PYTHON) setup.py build_ext
 
 rubywrap: all $(SWIGRUBYSO)
 
 $(SWIGRUBYLOBJ): $(SWIGRUBYCOUT)
-	$(CC) $(CFLAGS) $(SWIG_CFLAGS) $(RUBYINC) -fPIC -DSHARED -c -o $@ $<
+	$(CC) $(CFLAGS) $(SWIG_CFLAGS) $(SWIG_RUBY_CFLAGS) $(RUBYINC) -fPIC -DSHARED -c -o $@ $<
 
 $(SWIGRUBYSO): $(SWIGRUBYLOBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -L. -shared -o $@ $^ -lselinux $(RUBYLIBS)
+	$(CC) $(CFLAGS) $(subst $(comma)-no-undefined,,$(LDFLAGS)) -L. -shared -o $@ $^ -lselinux $(RUBYLIBS)
 
 $(LIBA): $(OBJS)
 	$(AR) rcs $@ $^
