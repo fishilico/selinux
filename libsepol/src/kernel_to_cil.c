@@ -298,7 +298,10 @@ static int class_constraint_rules_to_strs(struct policydb *pdb, char *classkey,
 			strs = non_mls_list;
 		}
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 		rc = strs_create_and_add(strs, format_str, 3, classkey, perms+1, expr);
+#pragma GCC diagnostic pop
 		free(expr);
 		if (rc != 0) {
 			goto exit;
@@ -338,7 +341,10 @@ static int class_validatetrans_rules_to_strs(struct policydb *pdb, char *classke
 			strs = non_mls_list;
 		}
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 		rc = strs_create_and_add(strs, format_str, 2, classkey, expr);
+#pragma GCC diagnostic pop
 		free(expr);
 		if (rc != 0) {
 			goto exit;
@@ -1035,7 +1041,6 @@ static char *cats_ebitmap_to_str(struct ebitmap *cats, char **val_to_name)
 	struct ebitmap_node *node;
 	uint32_t i, start, range;
 	char *catsbuf = NULL, *p;
-	const char *fmt;
 	int len, remaining;
 
 	remaining = (int)cats_ebitmap_len(cats, val_to_name);
@@ -1063,8 +1068,7 @@ static char *cats_ebitmap_to_str(struct ebitmap *cats, char **val_to_name)
 			continue;
 
 		if (range > 1) {
-			fmt = (range == 2) ? "%s %s " : "(range %s %s) ";
-			len = snprintf(p, remaining, fmt,
+			len = snprintf(p, remaining, (range == 2) ? "%s %s " : "(range %s %s) ",
 				       val_to_name[start], val_to_name[i]);
 		} else {
 			len = snprintf(p, remaining, "%s ", val_to_name[start]);

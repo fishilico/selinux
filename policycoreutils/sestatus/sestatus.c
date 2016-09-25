@@ -172,7 +172,10 @@ void printf_tab(const char *outp)
 {
 	char buf[20];
 	snprintf(buf, sizeof(buf), "%%-%us", COL);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 	printf(buf, outp);
+#pragma GCC diagnostic pop
 
 }
 
