@@ -862,7 +862,7 @@ static int rangetr_cmp(hashtab_t h __attribute__ ((unused)),
  */
 int policydb_init(policydb_t * p)
 {
-	int i, rc;
+	int i, rc = 0;
 
 	memset(p, 0, sizeof(policydb_t));
 

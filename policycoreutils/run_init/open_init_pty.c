@@ -220,7 +220,7 @@ static void sigchld_handler(int asig __attribute__ ((unused)))
 int main(int argc, char *argv[])
 {
 	pid_t child_pid;
-	int child_exit_status;
+	int child_exit_status = 0;
 	struct termios tty_attr;
 	struct winsize window_size;
 	int pty_master;

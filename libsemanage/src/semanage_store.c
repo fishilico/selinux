@@ -710,7 +710,7 @@ static int semanage_filename_select(const struct dirent *d)
 int semanage_copy_file(const char *src, const char *dst, mode_t mode,
 		bool syncrequired)
 {
-	int in, out, retval = 0, amount_read, n, errsv = errno;
+	int in, out, retval = 0, amount_read = 0, n, errsv = errno;
 	char tmp[PATH_MAX];
 	char buf[4192];
 	mode_t mask;

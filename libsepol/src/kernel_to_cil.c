@@ -1004,7 +1004,7 @@ exit:
 static size_t cats_ebitmap_len(struct ebitmap *cats, char **val_to_name)
 {
 	struct ebitmap_node *node;
-	uint32_t i, start, range;
+	uint32_t i, start = 0, range;
 	size_t len = 0;
 
 	range = 0;
@@ -1039,7 +1039,7 @@ static size_t cats_ebitmap_len(struct ebitmap *cats, char **val_to_name)
 static char *cats_ebitmap_to_str(struct ebitmap *cats, char **val_to_name)
 {
 	struct ebitmap_node *node;
-	uint32_t i, start, range;
+	uint32_t i, start = 0, range;
 	char *catsbuf = NULL, *p;
 	int len, remaining;
 

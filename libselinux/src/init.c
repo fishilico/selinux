@@ -81,7 +81,7 @@ int selinuxfs_exists(void)
 
 static void init_selinuxmnt(void)
 {
-	char *buf = NULL, *p;
+	char *buf = NULL, *p = 0; /* clang -Wconditional-uninitialized false positive in verify_selinuxmnt(p) */
 	FILE *fp = NULL;
 	size_t len;
 	ssize_t num;
