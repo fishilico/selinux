@@ -1,0 +1,45 @@
+(class capability (chown dac_override dac_read_search fowner fsetid kill setgid setuid setpcap linux_immutable net_bind_service
+    net_broadcast net_admin net_raw ipc_lock ipc_owner sys_module sys_rawio sys_chroot sys_ptrace sys_pacct sys_admin sys_boot
+sys_nice sys_resource sys_time sys_tty_config mknod lease audit_write audit_control setfcap))
+(classorder (capability))
+
+(sid kernel)
+(sid security)
+(sid unlabeled)
+(sid file_labels)
+(sid init)
+
+(mls false)
+(level systemlow (s0))
+(sensitivity s0)
+(sensitivityorder (s0))
+(role object_r)
+
+(block sys
+    (user id)
+    (role role)
+    (userrole id role)
+    (userrole sys.id object_r)
+    (userlevel id systemlow)
+    (userrange id (systemlow systemlow))
+)
+(typeattribute sys_obj_type)
+(macro sys_obj_type ((type ARG1))
+    (typeattributeset sys_obj_type ARG1))
+
+(block unlabeled
+    (type isid)
+    (call sys_obj_type (isid))
+    (roletype object_r isid)
+)
+(context isid (sys.id object_r unlabeled.isid (systemlow systemlow)))
+
+(sidcontext kernel isid)
+(sidcontext security isid)
+(sidcontext unlabeled isid)
+(sidcontext file_labels isid)
+(sidcontext init isid)
+
+(sidorder (kernel security unlabeled file_labels init))
+
+(allow unlabeled.isid self (capability (sys_admin)))

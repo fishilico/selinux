@@ -25,3 +25,8 @@ cscope.*
 .*.swp
 # Failsafes
 !.gitignore
+
+/DESTDIR/
+/afl-out/
+/afl-in/mod/
+/afl-in/pp/

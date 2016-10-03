@@ -1,0 +1,5 @@
+module basic 1.0.0;
+
+require {
+    role system_r;
+}
