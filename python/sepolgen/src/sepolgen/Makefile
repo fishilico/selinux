@@ -8,6 +8,7 @@ all:
 install: all
 	-mkdir -p $(DESTDIR)$(PACKAGEDIR)
 	install -m 644 *.py $(DESTDIR)$(PACKAGEDIR)
+	$(PYTHON) -m compileall $(DESTDIR)$(PACKAGEDIR)
 
 clean:
 	rm -f parser.out parsetab.py
