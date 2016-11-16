@@ -1,0 +1,125 @@
+00000000: 8fff 7cf9 0100 0000 0200 0000 1400 0000  ..|.............
+    > header sizeof(uint32_t)*3 (module_package_read_offsets)
+        8fff 7cf9 : #define SEPOL_MODULE_PACKAGE_MAGIC 0xf97cff8f
+        mod->version = le32_to_cpu(buf[1]);  -> 1
+        nsec = *sections = le32_to_cpu(buf[2]); -> 2
+    > section offsets: 0x14 and 0x2d1
+00000010: d102 0000 8dff 7cf9 0f00 0000 5345 204c  ......|.....SE L
+    > First section @0x14, magic SELINUX_MOD_MAGIC 0xf97cff8d
+    > call to policydb_read()
+    > string length 0xf : #define POLICYDB_MOD_STRING "SE Linux Module"
+00000020: 696e 7578 204d 6f64 756c 6502 0000 0011  inux Module.....
+    > /* Read the version, config, and table sizes (and policy type if it's a module). */
+        policy type = 2 #define SEPOL_POLICY_MOD     2 (not a base module)
+        r_policyvers = 17 (MOD_POLICYDB_VERSION_MAX)
+        config = 0 (POLICYDB_CONFIG_MLS, POLICYDB_CONFIG_UNKNOWN_MASK...)
+        table sizes = .sym_num=SYM_NUM=8, .ocon_num=0 (standard from policydb_lookup_compat...)
+00000030: 0000 0000 0000 0008 0000 0000 0000 0005  ................
+    > Module name : size 5 "basic"
+00000040: 0000 0062 6173 6963 0500 0000 312e 302e  ...basic....1.0.
+    > Version string: size 5 "1.0.0"
+00000050: 30|||40 0000 0000 0000 0000 0000 00|||00 0000  0@..............
+    > ebitmap_read(&p->policycaps, fp) from @0x51
+        > mapsize = x40 = 64 /* 64 bits */
+            #define MAPTYPE uint64_t
+            #define MAPSIZE (sizeof(MAPTYPE) * 8)        /* number of bits in node bitmap */
+        > e->highbit = 0
+        > count = 0
+        => nothing
+    > read 8 tables: for (i = 0; i < info->sym_num; i++)
+            common_read, class_read,
+            role_read, type_read,
+            user_read, cond_read_bool,
+            sens_read, cat_read
+        > header for each table: nprim, nel, and loop and nel to call functions:
+            common: nprim=0, nel=0
+00000060: 0000 0000 00|00 0000 0000 0000 00|02 0000  ................
+            class_read: nprim=0, nel=0
+            role_read: nprim = 2, nel = 2
+00000070: 0002 0000 00|08 0000 0001 0000 0000 0000  ................
+            > len = 8, role->s.value = 1 = OBJECT_R_VAL, role->bounds = 0
+00000080: 006f 626a 6563 745f 7240 0000 0000 0000  .object_r@......
+            ... name[len=8] = "object_r"
+            ... ebitmap_read(&role->dominates, fp) empty (12 bytes 40 0000 0000 0000...)
+00000090: 0000 0000 0040 0000 0000 0000 0000 0000  .....@..........
+            ... type_set_read(&role->types, fp)
+                    ebitmap_read(&t->types, fp) empty (12 bytes 40 0000 0000 0000...)
+000000a0: 0040 0000 0000 0000 0000 0000 0000 0000  .@..............
+                    ebitmap_read(&t->negset, fp) empty
+                    flags = 0
+000000b0: 00|00 0000 00|40 0000 0000 0000 0000 0000  .....@..........
+            ... role->flavor = 0
+            ... ebitmap_read(&role->roles, fp) empty
+000000c0: 00|08 0000 0002 0000 0000 0000 0073 7973  .............sys
+            > len = 8, role->s.value = 2, role->bounds = 0
+            ... name "system_r"
+000000d0: 7465 6d5f 72|40 0000 0040 0000 0001 0000  tem_r@...@......
+            ... ebitmap_read(&role->dominates, fp):
+                > e->highbit = 0x40
+                > count = 1
+000000e0: 00|00 0000 0002 0000 0000 0000 00|40 0000  .............@..
+                > n->startbit = 0
+                > n->map = 00000000....0002
+            ... type_set_read(&role->types, fp)
+                    ebitmap_read(&t->types, fp) empty (12 bytes 40 0000 0000 0000...)
+000000f0: 0000 0000 0000 0000 00|40 0000 0000 0000  .........@......
+                    ebitmap_read(&t->negset, fp) empty
+00000100: 0000 0000 00|00 0000 0000 0000 0040 0000  .............@..
+                    flags = 0
+            ... role->flavor = 0
+            ... ebitmap_read(&role->roles, fp) empty
+00000110: 0000 0000 0000 0000 00|00 0000 0000 0000  ................
+            type_read: nprim=0, nel=0
+00000120: 00|00 0000 0000 0000 00|00 0000 0000 0000  ................
+            user_read: nprim=0, nel=0
+            cond_read_bool: nprim=0, nel=0
+00000130: 00|00 0000 0000 0000 00|00 0000 0000 0000  ................
+            sens_read: nprim=0, nel=0
+            cat_read: nprim=0, nel=0
+00000140: 00|01 0000 00|01 0000 00|01 0000 00|00 0000  ................
+    >... avrule_block_read:
+        num_blocks = 1
+        ..num_decls = 1
+        ....avrule_decl_read():
+            > decl->decl_id = 1
+            > decl->enabled = 0
+00000150: 00|00 0000 00|00 0000 00|00 0000 0000 0000  ................
+            ... empty things
+00000160: 0000 0000 0000 0000 0040 0000 0000 0000  .........@......
+00000170: 0000 0000 0040 0000 0000 0000 0000 0000  .....@..........
+00000180: 0040 0000 0040 0000 0001 0000 0000 0000  .@...@..........
+00000190: 0002 0000 0000 0000 0040 0000 0000 0000  .........@......
+000001a0: 0000 0000 0040 0000 0000 0000 0000 0000  .....@..........
+000001b0: 0040 0000 0000 0000 0000 0000 0040 0000  .@...........@..
+000001c0: 0000 0000 0000 0000 0040 0000 0000 0000  .........@......
+000001d0: 0000 0000 0000 0000 0040 0000 0000 0000  .........@......
+000001e0: 0000 0000 0040 0000 0000 0000 0000 0000  .....@..........
+000001f0: 0040 0000 0000 0000 0000 0000 0040 0000  .@...........@..
+00000200: 0000 0000 0000 0000 0040 0000 0000 0000  .........@......
+00000210: 0000 0000 0040 0000 0000 0000 0000 0000  .....@..........
+00000220: 0040 0000 0000 0000 0000 0000 0040 0000  .@...........@..
+00000230: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000240: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000250: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000260: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000270: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000280: 0000 0000 00|02 0000 00|08 0000 006f 626a  .............obj
+        > scope_read on roles: nel=2
+            key "object_r"
+00000290: 6563 745f 72|02 0000 0001 0000 00|01 0000  ect_r...........
+            scope = 2
+            decl_ids_len = 1
+            decl_ids = {1}
+000002a0: 00|08 0000 0073 7973 7465 6d5f 7201 0000  .....system_r...
+            key "system_r"
+            scope = 1
+000002b0: 00|01 0000 0001 0000 00|00 0000 0000 0000  ................
+            decl_ids_len = 1
+            decl_ids = {1}
+        ... empty things...
+000002c0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+000002d0: 0090 ff7c f92f 746d 7020 2d64 2073 7973  ...|./tmp -d sys
+    > Second section @0x2d1, magic SEPOL_PACKAGE_SECTION_FC 0xf97cff90
+    ... file contexts
+000002e0: 7465 6d5f 753a 6f62 6a65 6374 5f72 3a74  tem_u:object_r:t
+000002f0: 6d70 5f74 3a73 300a                      mp_t:s0.
