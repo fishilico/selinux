@@ -498,4 +498,37 @@ int ebitmap_read(ebitmap_t * e, void *fp)
 	goto out;
 }
 
+int ebitmap_read_bounded(ebitmap_t * e, uint32_t bound, void *fp)
+{
+	int rc;
+	struct ebitmap_node *n;
+	unsigned int bit;
+
+	rc = ebitmap_read(e, fp);
+	if (rc < 0)
+		return rc;
+
+	/* Go to the last node, to compare its bits with bound */
+	n = e->node;
+	if (!n)
+		return 0;
+	while (n->next) {
+		n = n->next;
+	}
+	if (n->startbit + MAPSIZE <= bound) {
+		/* All bits are below the bound. No overflow is possible */
+		return 0;
+	}
+	/* There may be bits enabled over the bound */
+	for (bit = 0; bit < MAPSIZE; bit++) {
+		if (n->startbit + bit >= bound && (n->map & (MAPBIT << bit ))) {
+			printf
+			    ("security: ebitmap: bitmap bit %u over the bound %u\n",
+			    n->startbit + bit, bound);
+			ebitmap_destroy(e);
+			return -EINVAL;
+		}
+	}
+	return 0;
+}
 /* FLASK */

@@ -97,6 +97,7 @@ extern int ebitmap_set_bit(ebitmap_t * e, unsigned int bit, int value);
 extern unsigned int ebitmap_highest_set_bit(const ebitmap_t * e);
 extern void ebitmap_destroy(ebitmap_t * e);
 extern int ebitmap_read(ebitmap_t * e, void *fp);
+extern int ebitmap_read_bounded(ebitmap_t * e, uint32_t bound, void *fp);
 
 #ifdef __cplusplus
 }
