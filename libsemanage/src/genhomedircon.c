@@ -355,7 +355,6 @@ static semanage_list_t *get_home_dirs(genhomedircon_settings_t * s)
 		temp = atoi(path);
 		if (!minuid_set || temp < minuid) {
 			minuid = temp;
-			minuid_set = 1;
 		}
 	}
 	free(path);
