@@ -162,6 +162,7 @@ static int avc_netlink_receive(void *buf, unsigned buflen, int blocking)
 		return rc;
 	}
 
+	memset(&nladdr, 0, sizeof nladdr); /* Make clang static analyzer happy */
 	rc = recvfrom(fd, buf, buflen, 0, (struct sockaddr *)&nladdr,
 		      &nladdrlen);
 	if (rc < 0)

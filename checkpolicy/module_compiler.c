@@ -284,7 +284,8 @@ static int create_role(uint32_t scope, unsigned char isattr, role_datum_t **role
 		ret = require_symbol(SYM_ROLES, id, datum, &value, &value);
 	}
 
-	datum->s.value = value;
+	if (ret >= 0) /* Make clang static analyzer happy */
+		datum->s.value = value;
 
 	if (ret == 0) {
 		*role = datum;
@@ -527,7 +528,8 @@ static int create_user(uint32_t scope, user_datum_t **user, char **key)
 		ret = require_symbol(SYM_USERS, id, datum, &value, &value);
 	}
 
-	datum->s.value = value;
+	if (ret >= 0) /* Make clang static analyzer happy */
+		datum->s.value = value;
 
 	if (ret == 0) {
 		*user = datum;
