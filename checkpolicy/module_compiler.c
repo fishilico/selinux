@@ -179,6 +179,9 @@ static int create_symbol(uint32_t symbol_type, hashtab_key_t key, hashtab_datum_
 		return -2;
 	} else if (ret < 0) {
 		return -3;
+	} else if (ret >= 2) {
+		/* Make clang static analyzer happy */
+		return -3;
 	}
 
 	return ret;
