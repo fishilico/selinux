@@ -2991,7 +2991,7 @@ int cil_gen_condblock(struct cil_db *db, struct cil_tree_node *parse_current, st
 	int rc = SEPOL_ERR;
 	struct cil_condblock *cb = NULL;
 
-	if (db == NULL || parse_current == NULL || ast_node == NULL) {
+	if (db == NULL || ast_node == NULL) {
 		goto exit;
 	}
 
@@ -3045,7 +3045,7 @@ int cil_gen_alias(struct cil_db *db, struct cil_tree_node *parse_current, struct
 	enum cil_sym_index sym_index;
 	int rc = SEPOL_ERR;
 
-	if (db == NULL || parse_current == NULL || ast_node == NULL) {
+	if (db == NULL || ast_node == NULL) {
 		goto exit;
 	}
 
