@@ -193,7 +193,7 @@ void cil_tree_children_destroy(struct cil_tree_node *node)
 		node = node->cl_head;
 	}
 
-	while (node != start_node) {
+	while (node != start_node && node) {
 		if (node->cl_head != NULL){
 			next = node->cl_head;
 		} else {
