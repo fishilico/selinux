@@ -1843,7 +1843,7 @@ static void avrule_destroy_ioctls(struct av_ioctl_range_list *rangehead)
 	}
 }
 
-int avrule_sort_ioctls(struct av_ioctl_range_list **rangehead)
+static int avrule_sort_ioctls(struct av_ioctl_range_list **rangehead)
 {
 	struct av_ioctl_range_list *r, *r2, *sorted, *sortedhead = NULL;
 
@@ -1892,7 +1892,7 @@ error:
 	return -1;
 }
 
-int avrule_merge_ioctls(struct av_ioctl_range_list **rangehead)
+static int avrule_merge_ioctls(struct av_ioctl_range_list **rangehead)
 {
 	struct av_ioctl_range_list *r, *tmp;
 	r = *rangehead;
@@ -1912,7 +1912,7 @@ int avrule_merge_ioctls(struct av_ioctl_range_list **rangehead)
 	return 0;
 }
 
-int avrule_read_ioctls(struct av_ioctl_range_list **rangehead)
+static int avrule_read_ioctls(struct av_ioctl_range_list **rangehead)
 {
 	char *id;
 	struct av_ioctl_range_list *rnew, *r = NULL;
@@ -1932,6 +1932,7 @@ int avrule_read_ioctls(struct av_ioctl_range_list **rangehead)
 			/* high value of range */
 			free(id);
 			id = queue_remove(id_queue);
+			assert(r != NULL); /* This should never occur because of policy_parse.y rules */
 			r->range.high = (uint16_t) strtoul(id,NULL,0);
 			if (r->range.high < r->range.low) {
 				yyerror("Ioctl ranges must be in ascending order.");
@@ -2391,6 +2392,7 @@ int avrule_cpy(avrule_t *dest, const avrule_t *src)
 	}
 	dest->source_line = src->source_line;
 
+	assert(dest->perms == NULL); /* For clang static analyzer */
 	/* increment through the class perms and copy over */
 	src_perms = src->perms;
 	while (src_perms) {
@@ -2509,7 +2511,7 @@ int define_te_avtab_extended_perms(int which)
 	return 0;
 }
 
-int define_te_avtab_helper(int which, avrule_t ** rule)
+static int define_te_avtab_helper(int which, avrule_t ** rule)
 {
 	char *id;
 	class_datum_t *cladatum;
@@ -2590,6 +2592,7 @@ int define_te_avtab_helper(int which, avrule_t ** rule)
 			tail->next = cur_perms;
 		tail = cur_perms;
 	}
+	assert(perms != NULL); /* This should never occur because of policy_parse.y rules */
 
 	while ((id = queue_remove(id_queue))) {
 		cur_perms = perms;
