@@ -126,18 +126,14 @@
 	unsigned int* num_roles) {
 
 	(void)&res4; /* mark num_roles as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$3, *$4,
-				NULL, NULL, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$3, *$4,
+			NULL, NULL, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -191,18 +187,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_bool,
-				(void (*) (void*)) &semanage_bool_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-		   	        $result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_bool,
+			(void (*) (void*)) &semanage_bool_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -236,18 +228,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_fcontext,
-				(void (*) (void*)) &semanage_fcontext_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_fcontext,
+			(void (*) (void*)) &semanage_fcontext_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -282,18 +270,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_iface,
-				(void (*) (void*)) &semanage_iface_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_iface,
+			(void (*) (void*)) &semanage_iface_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -328,18 +312,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_seuser,
-				(void (*) (void*)) &semanage_seuser_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_seuser,
+			(void (*) (void*)) &semanage_seuser_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -373,18 +353,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_user,
-				(void (*) (void*)) &semanage_user_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_user,
+			(void (*) (void*)) &semanage_user_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -418,18 +394,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_port,
-				(void (*) (void*)) &semanage_port_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_port,
+			(void (*) (void*)) &semanage_port_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -463,18 +435,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_ibpkey,
-				(void (*) (void*)) &semanage_ibpkey_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_ibpkey,
+			(void (*) (void*)) &semanage_port_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -508,18 +476,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_ibendport,
-				(void (*) (void*)) &semanage_ibendport_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_ibendport,
+			(void (*) (void*)) &semanage_port_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
@@ -553,18 +517,14 @@
 	unsigned int* count) {
 
 	(void)&res3; /* mark count as used */
-	if ($result) {
-		int value;
-		SWIG_AsVal_int($result, &value);
-		if (value >= 0) {
-			PyObject* plist = NULL;
-			if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_node,
-				(void (*) (void*)) &semanage_node_free, &plist) < 0) {
-				Py_DECREF($result);
-				$result = SWIG_From_int(STATUS_ERR);
-			} else
-				$result = SWIG_Python_AppendOutput($result, plist);
-		}
+	if ($result && result >= 0) {
+		PyObject* plist = NULL;
+		if (semanage_array2plist($1, (void**) *$2, *$3, SWIGTYPE_p_semanage_node,
+			(void (*) (void*)) &semanage_node_free, &plist) < 0) {
+			Py_DECREF($result);
+			$result = SWIG_From_int(STATUS_ERR);
+		} else
+			$result = SWIG_Python_AppendOutput($result, plist);
 	}
 }
 
