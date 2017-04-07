@@ -721,6 +721,7 @@ mls_ops:
 
 	/* Convert constraint from RPN to infix notation. */
 	for (x = 0; x != expr_count; x++) {
+		expr_counter = 0; /* This should not be necessary but clang's static analyzer seems not to be smart enough */
 		if (strncmp(expr_list[x], "and", 3) == 0 || strncmp(expr_list[x],
 					"or", 2) == 0) {
 			b = pop();
@@ -818,6 +819,7 @@ mls_ops:
 		}
 	}
 
+	expr_counter = 0; /* This should not be necessary but clang's static analyzer seems not to be smart enough */
 out1:
 	rc = s[0];
 	free(a);
