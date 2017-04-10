@@ -260,6 +260,8 @@ static int display_avrule(avrule_t * avrule, policydb_t * policy,
 	if (display_type_set(&avrule->ttypes, avrule->flags, policy, fp))
 		return -1;
 
+	assert(avrule->perms != NULL);
+
 	fprintf(fp, " :");
 	cur = avrule->perms;
 	num_classes = 0;

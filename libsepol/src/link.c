@@ -2236,6 +2236,7 @@ static int enable_avrules(link_state_t * state, policydb_t * pol)
 	 * This code assumes that the second block in the branch list is the else
 	 * block. This is currently supported by the compiler.
 	 */
+	assert(pol->global != NULL);
 	for (block = pol->global->next; block != NULL; block = block->next) {
 		if (block->enabled == NULL) {
 			if (block->branch_list->next != NULL) {
