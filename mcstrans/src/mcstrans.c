@@ -12,6 +12,7 @@
 
 */
 
+#include <assert.h>
 #include <math.h>
 #include <glob.h>
 #include <values.h>
@@ -1413,6 +1414,7 @@ compute_trans_from_raw(const char *level, domain_t *domain) {
 					for (t = &groups; *t; t = &(*t)->next)
 						if (!strcmp(currentGroup->name, (*t)->name))
 							break;
+					assert(&(*t)->words != NULL);
 					create_word(&(*t)->words, currentWord->text);
 					change++;
 				}

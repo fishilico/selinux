@@ -32,6 +32,7 @@
 #include <sepol/policydb/services.h>
 #include <sepol/policydb/context.h>
 
+#include <assert.h>
 #include <stdlib.h>
 
 #include "handle.h"
@@ -44,7 +45,7 @@ int mls_to_string(sepol_handle_t * handle,
 		  const context_struct_t * mls, char **str)
 {
 
-	char *ptr = NULL, *ptr2 = NULL;
+	char *orig_ptr, *ptr = NULL, *ptr2 = NULL;
 
 	/* Temporary buffer - length + NULL terminator */
 	int len = mls_compute_context_len(policydb, mls) + 1;
@@ -58,11 +59,12 @@ int mls_to_string(sepol_handle_t * handle,
 	if (ptr2 == NULL)
 		goto omem;
 
+	orig_ptr = ptr;
 	mls_sid_to_context(policydb, mls, &ptr);
-	ptr -= len - 1;
-	strcpy(ptr2, ptr + 1);
+	assert(ptr == orig_ptr + len - 1); /* Check programmer's sanity */
+	strcpy(ptr2, orig_ptr + 1);
 
-	free(ptr);
+	free(orig_ptr);
 	*str = ptr2;
 	return STATUS_SUCCESS;
 
