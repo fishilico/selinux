@@ -645,7 +645,7 @@ SELinux policy is customizable based on least access required.  %s policy is ext
 
     def _nsswitch_domain(self):
         nsswitch_types = []
-        nsswitch_booleans = ['authlogin_nsswitch_use_ldap', 'kerberos_enabled']
+        nsswitch_booleans = ['authlogin_nsswitch_use_ldap', 'allow_kerberos']
         nsswitchbooltext = ""
         for k in self.attributes.keys():
             if "nsswitch_domain" in self.attributes[k]:
