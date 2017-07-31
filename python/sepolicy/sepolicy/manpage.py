@@ -656,6 +656,8 @@ SELinux policy is customizable based on least access required.  %s policy is ext
 .SH NSSWITCH DOMAIN
 """)
             for b in nsswitch_booleans:
+                if b not in self.booleans_dict:
+                    continue
                 nsswitchbooltext += """
 .PP
 If you want to %s for the %s, you must turn on the %s boolean.
