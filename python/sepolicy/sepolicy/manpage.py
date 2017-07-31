@@ -880,6 +880,8 @@ semanage fcontext -a -t public_content_rw_t "/var/%(domainname)s/incoming(/.*)?"
 .B setsebool -P %(domainname)s_anon_write 1
 """ % {'domainname': self.domainname})
             for b in self.anon_list:
+                if b not in self.booleans_dict:
+                    continue
                 desc = self.booleans_dict[b][2][0].lower() + self.booleans_dict[b][2][1:]
                 self.fd.write("""
 .PP
