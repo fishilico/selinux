@@ -35,62 +35,58 @@ MOFILES		= $(patsubst %.po,%.mo,$(POFILES))
 POTFILES = \
 	../run_init/open_init_pty.c \
 	../run_init/run_init.c \
-	../semodule_link/semodule_link.c \
-	../audit2allow/audit2allow \
-	../semanage/seobject.py \
+	../../semodule-utils/semodule_link/semodule_link.c \
+	../../python/audit2allow/audit2allow \
+	../../python/semanage/seobject.py \
 	../setsebool/setsebool.c \
 	../newrole/newrole.c \
 	../load_policy/load_policy.c \
 	../sestatus/sestatus.c \
 	../semodule/semodule.c \
 	../setfiles/setfiles.c \
-	../semodule_package/semodule_package.c \
-	../semodule_deps/semodule_deps.c \
-	../semodule_expand/semodule_expand.c \
-	../scripts/chcat \
+	../../semodule-utils/semodule_package/semodule_package.c \
+	../../semodule-utils/semodule_expand/semodule_expand.c \
+	../../python/chcat/chcat \
 	../scripts/fixfiles \
-	../restorecond/stringslist.c \
-	../restorecond/restorecond.h \
-	../restorecond/utmpwatcher.h \
-	../restorecond/stringslist.h \
-	../restorecond/restorecond.c \
-	../restorecond/utmpwatcher.c \
-	../gui/booleansPage.py \
-	../gui/fcontextPage.py \
-	../gui/loginsPage.py \
-	../gui/mappingsPage.py \
-	../gui/modulesPage.py \
-	../gui/polgen.glade \
-	../gui/polgengui.py \
-	../gui/portsPage.py \
-	../gui/semanagePage.py \
-	../gui/statusPage.py \
-	../gui/system-config-selinux.glade \
-	../gui/system-config-selinux.py \
-	../gui/usersPage.py \
+	../../restorecond/stringslist.c \
+	../../restorecond/restorecond.h \
+	../../restorecond/utmpwatcher.h \
+	../../restorecond/stringslist.h \
+	../../restorecond/restorecond.c \
+	../../restorecond/utmpwatcher.c \
+	../../gui/booleansPage.py \
+	../../gui/fcontextPage.py \
+	../../gui/loginsPage.py \
+	../../gui/modulesPage.py \
+	../../gui/portsPage.py \
+	../../gui/semanagePage.py \
+	../../gui/statusPage.py \
+	../../gui/system-config-selinux.py \
+	../../gui/system-config-selinux.ui \
+	../../gui/usersPage.py \
 	../secon/secon.c \
 	booleans.py \
-	../sepolicy/sepolicy.py \
-	../sepolicy/sepolicy/communicate.py \
-	../sepolicy/sepolicy/__init__.py \
-	../sepolicy/sepolicy/network.py \
-	../sepolicy/sepolicy/generate.py \
-	../sepolicy/sepolicy/sepolicy.glade \
-	../sepolicy/sepolicy/gui.py \
-	../sepolicy/sepolicy/manpage.py \
-	../sepolicy/sepolicy/transition.py \
-	../sepolicy/sepolicy/templates/executable.py \
-	../sepolicy/sepolicy/templates/__init__.py \
-	../sepolicy/sepolicy/templates/network.py \
-	../sepolicy/sepolicy/templates/rw.py \
-	../sepolicy/sepolicy/templates/script.py \
-	../sepolicy/sepolicy/templates/semodule.py \
-	../sepolicy/sepolicy/templates/tmp.py \
-	../sepolicy/sepolicy/templates/user.py \
-	../sepolicy/sepolicy/templates/var_lib.py \
-	../sepolicy/sepolicy/templates/var_log.py \
-	../sepolicy/sepolicy/templates/var_run.py \
-	../sepolicy/sepolicy/templates/var_spool.py
+	../../python/sepolicy/sepolicy.py \
+	../../python/sepolicy/sepolicy/communicate.py \
+	../../python/sepolicy/sepolicy/__init__.py \
+	../../python/sepolicy/sepolicy/network.py \
+	../../python/sepolicy/sepolicy/generate.py \
+	../../python/sepolicy/sepolicy/sepolicy.glade \
+	../../python/sepolicy/sepolicy/gui.py \
+	../../python/sepolicy/sepolicy/manpage.py \
+	../../python/sepolicy/sepolicy/transition.py \
+	../../python/sepolicy/sepolicy/templates/executable.py \
+	../../python/sepolicy/sepolicy/templates/__init__.py \
+	../../python/sepolicy/sepolicy/templates/network.py \
+	../../python/sepolicy/sepolicy/templates/rw.py \
+	../../python/sepolicy/sepolicy/templates/script.py \
+	../../python/sepolicy/sepolicy/templates/semodule.py \
+	../../python/sepolicy/sepolicy/templates/tmp.py \
+	../../python/sepolicy/sepolicy/templates/user.py \
+	../../python/sepolicy/sepolicy/templates/var_lib.py \
+	../../python/sepolicy/sepolicy/templates/var_log.py \
+	../../python/sepolicy/sepolicy/templates/var_run.py \
+	../../python/sepolicy/sepolicy/templates/var_spool.py
 
 #default:: clean
 
