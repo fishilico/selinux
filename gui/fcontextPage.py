@@ -139,7 +139,10 @@ class fcontextPage(semanagePage):
             self.store.set_value(iter, SPEC_COL, k[0])
             self.store.set_value(iter, FTYPE_COL, k[1])
             if fcon_dict[k]:
-                rec = "%s:%s" % (fcon_dict[k][2], seobject.translate(fcon_dict[k][3], False))
+                if fcon_dict[k][3]:
+                    rec = "%s:%s" % (fcon_dict[k][2], seobject.translate(fcon_dict[k][3], False))
+                else:
+                    rec = fcon_dict[k][2]
             else:
                 rec = "<<None>>"
             self.store.set_value(iter, TYPE_COL, rec)
@@ -157,7 +160,7 @@ class fcontextPage(semanagePage):
         scontext = store.get_value(iter, TYPE_COL)
         scon = context(scontext)
         self.fcontextTypeEntry.set_text(scon.type)
-        self.fcontextMLSEntry.set_text(scon.mls)
+        self.fcontextMLSEntry.set_text(scon.mls or '')
         type = store.get_value(iter, FTYPE_COL)
         liststore = self.fcontextFileTypeCombo.get_model()
         iter = liststore.get_iter_first()
@@ -218,7 +221,10 @@ class fcontextPage(semanagePage):
         iter = self.fcontextFileTypeCombo.get_active_iter()
         ftype = list_model.get_value(iter, 0)
         self.wait()
-        (rc, out) = getstatusoutput("semanage fcontext -m -t %s -r %s -f '%s' '%s'" % (type, mls, seobject.file_type_str_to_option[ftype], fspec))
+        if mls:
+            (rc, out) = getstatusoutput("semanage fcontext -m -t %s -r %s -f '%s' '%s'" % (type, mls, seobject.file_type_str_to_option[ftype], fspec))
+        else:
+            (rc, out) = getstatusoutput("semanage fcontext -m -t %s -f '%s' '%s'" % (type, seobject.file_type_str_to_option[ftype], fspec))
         self.ready()
         if rc != 0:
             self.error(out)
@@ -227,4 +233,7 @@ class fcontextPage(semanagePage):
         store, iter = self.view.get_selection().get_selected()
         self.store.set_value(iter, SPEC_COL, fspec)
         self.store.set_value(iter, FTYPE_COL, ftype)
-        self.store.set_value(iter, TYPE_COL, "%s:%s" % (type, mls))
+        if mls:
+            self.store.set_value(iter, TYPE_COL, type)
+        else:
+            self.store.set_value(iter, TYPE_COL, "%s:%s" % (type, mls))

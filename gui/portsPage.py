@@ -142,7 +142,7 @@ class portsPage(semanagePage):
                 self.store.set_value(iter, PORT_COL, rec)
             self.store.set_value(iter, TYPE_COL, dict[k][0])
             self.store.set_value(iter, PROTOCOL_COL, k[2])
-            self.store.set_value(iter, MLS_COL, dict[k][1])
+            self.store.set_value(iter, MLS_COL, dict[k][1] or "")
         self.view.get_selection().select_path((0,))
 
     def group_load(self, filter=""):
@@ -216,7 +216,10 @@ class portsPage(semanagePage):
         iter = self.ports_protocol_combo.get_active_iter()
         protocol = list_model.get_value(iter, 0)
         self.wait()
-        (rc, out) = getstatusoutput("semanage port -a -p %s -r %s -t %s %s" % (protocol, mls, target, port_number))
+        if mls:
+            (rc, out) = getstatusoutput("semanage port -a -p %s -r %s -t %s %s" % (protocol, mls, target, port_number))
+        else:
+            (rc, out) = getstatusoutput("semanage port -a -p %s -t %s %s" % (protocol, target, port_number))
         self.ready()
         if rc != 0:
             self.error(out)
@@ -226,7 +229,7 @@ class portsPage(semanagePage):
         self.store.set_value(iter, TYPE_COL, target)
         self.store.set_value(iter, PORT_COL, port_number)
         self.store.set_value(iter, PROTOCOL_COL, protocol)
-        self.store.set_value(iter, MLS_COL, mls)
+        self.store.set_value(iter, MLS_COL, mls or '')
 
     def modify(self):
         target = self.ports_name_entry.get_text().strip()
@@ -236,7 +239,10 @@ class portsPage(semanagePage):
         iter = self.ports_protocol_combo.get_active_iter()
         protocol = list_model.get_value(iter, 0)
         self.wait()
-        (rc, out) = getstatusoutput("semanage port -m -p %s -r %s -t %s %s" % (protocol, mls, target, port_number))
+        if mls:
+            (rc, out) = getstatusoutput("semanage port -m -p %s -r %s -t %s %s" % (protocol, mls, target, port_number))
+        else:
+            (rc, out) = getstatusoutput("semanage port -m -p %s -t %s %s" % (protocol, target, port_number))
         self.ready()
         if rc != 0:
             self.error(out)

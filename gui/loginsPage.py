@@ -77,7 +77,7 @@ class loginsPage(semanagePage):
         dict = self.login.get_all(0)
         self.store.clear()
         for k in sorted(dict.keys()):
-            range = seobject.translate(dict[k][1])
+            range = seobject.translate(dict[k][1]) if dict[k][1] else ''
             if not (self.match(k, filter) or self.match(dict[k][0], filter) or self.match(range, filter)):
                 continue
             iter = self.store.append()

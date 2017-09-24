@@ -81,7 +81,7 @@ class usersPage(semanagePage):
         dict = self.user.get_all()
         self.store.clear()
         for k in sorted(dict.keys()):
-            range = seobject.translate(dict[k][2])
+            range = seobject.translate(dict[k][2]) if dict[k][2] else ''
             if not (self.match(k, filter) or self.match(dict[k][0], filter) or self.match(range, filter) or self.match(dict[k][3], filter)):
                 continue
 
@@ -110,7 +110,10 @@ class usersPage(semanagePage):
         roles = self.selinuxRolesEntry.get_text()
 
         self.wait()
-        (rc, out) = getstatusoutput("semanage user -a -R '%s' -r %s %s" % (roles, range, user))
+        if range:
+            (rc, out) = getstatusoutput("semanage user -a -R '%s' -r %s %s" % (roles, range, user))
+        else:
+            (rc, out) = getstatusoutput("semanage user -a -R '%s' %s" % (roles, user))
         self.ready()
         if rc != 0:
             self.error(out)
@@ -126,7 +129,10 @@ class usersPage(semanagePage):
         roles = self.selinuxRolesEntry.get_text()
 
         self.wait()
-        (rc, out) = getstatusoutput("semanage user -m -R '%s' -r %s %s" % (roles, range, user))
+        if range:
+            (rc, out) = getstatusoutput("semanage user -m -R '%s' -r %s %s" % (roles, range, user))
+        else:
+            (rc, out) = getstatusoutput("semanage user -m -R '%s' %s" % (roles, user))
         self.ready()
 
         if rc != 0:
