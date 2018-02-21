@@ -3446,6 +3446,12 @@ int cil_genfscon_to_policydb(policydb_t *pdb, struct cil_sort *genfscons)
 		memset(new_ocon, 0, sizeof(ocontext_t));
 
 		if (genfs_tail && strcmp(genfs_tail->fstype, cil_genfscon->fs_str) == 0) {
+			if (strcmp(ocon_tail->u.name, cil_genfscon->path_str) == 0) {
+				/* TODO: duplicate genfscon message, or ignore duplicated context...
+				 * or somewhere else?
+				 */
+				goto exit;
+			}
 			ocon_tail->next = new_ocon;
 		} else {
 			genfs_t *new_genfs = cil_malloc(sizeof(genfs_t));

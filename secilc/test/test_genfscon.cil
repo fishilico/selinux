@@ -1,0 +1,12 @@
+; (level low (SENS))
+;(context CONTEXT (USER object_r TYPE low ))
+
+;(level high (SENS (CAT)))
+;(levelrange low_high ((SENS) high))
+
+;(userlevel USER (SENS))
+;(userrange USER low_high)
+
+(context CONTEXT (USER ROLE TYPE ((SENS) (SENS (CAT)))))
+;(genfscon "proc" "/" CONTEXT)
+(genfscon "proc" "/" CONTEXT)
