@@ -17,6 +17,7 @@
 #ifndef _SEPOL_POLICYDB_EBITMAP_H_
 #define _SEPOL_POLICYDB_EBITMAP_H_
 
+#include <assert.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -49,6 +50,8 @@ static inline unsigned int ebitmap_start(const ebitmap_t * e,
 {
 
 	*n = e->node;
+	/* Try helping static analyzers: the highbit is 0 if node is NULL */
+	assert(e->node || e->highbit == 0);
 	return ebitmap_startbit(e);
 }
 
