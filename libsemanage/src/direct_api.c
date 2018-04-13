@@ -2655,7 +2655,6 @@ static int semanage_direct_list_all(semanage_handle_t *sh,
 			}
 			free(modules);
 			modules = NULL;
-			modules_len = 0;
 		}
 
 		/* find modules at this priority */
