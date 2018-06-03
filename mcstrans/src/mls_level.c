@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include "mls_level.h"
 #include <sepol/policydb/ebitmap.h>
@@ -165,6 +166,7 @@ char *mls_level_to_string(mls_level_t *l)
 		p += sprintf(p, "c%d", i-1);
 	}
 
+	assert(p == result + len);
 	*(result + len) = 0;
 	return result;
 }
