@@ -43,7 +43,7 @@ try:
                     localedir="/usr/share/locale",
                     codeset='utf-8',
                     **kwargs)
-except:
+except ImportError:
     try:
         import builtins
         builtins.__dict__['_'] = str
@@ -568,12 +568,12 @@ class loginRecords(semanageRecords):
         if name[0] == '%':
             try:
                 grp.getgrnam(name[1:])
-            except:
+            except KeyError:
                 raise ValueError(_("Linux Group %s does not exist") % name[1:])
         else:
             try:
                 pwd.getpwnam(name)
-            except:
+            except KeyError:
                 raise ValueError(_("Linux User %s does not exist") % name)
 
         (rc, u) = semanage_seuser_create(self.sh)
@@ -1867,7 +1867,7 @@ class nodeRecords(semanageRecords):
 
         try:
             newprotocol = self.protocol.index(protocol)
-        except:
+        except ValueError:
             raise ValueError(_("Unknown or missing protocol"))
 
         try:
@@ -2341,7 +2341,7 @@ class fcontextRecords(semanageRecords):
             fd.close()
             try:
                 os.chmod(tmpfile, os.stat(subs_file)[stat.ST_MODE])
-            except:
+            except OSError:
                 pass
             os.rename(tmpfile, subs_file)
             self.equal_ind = False
@@ -2708,7 +2708,7 @@ class booleanRecords(semanageRecords):
         try:
             rc, self.current_booleans = selinux.security_get_boolean_names()
             rc, ptype = selinux.selinux_getpolicytype()
-        except:
+        except OSError:
             self.current_booleans = []
             ptype = None
 

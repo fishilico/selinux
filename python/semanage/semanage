@@ -40,7 +40,7 @@ try:
                     localedir="/usr/share/locale",
                     codeset='utf-8',
                     **kwargs)
-except:
+except ImportError:
     try:
         import builtins
         builtins.__dict__['_'] = str
@@ -112,7 +112,7 @@ class SetExportFile(argparse.Action):
             if values != "-":
                 try:
                     sys.stdout = open(values, 'w')
-                except:
+                except OSError:
                     sys.stderr.write(traceback.format_exc())
                     sys.exit(1)
         setattr(namespace, self.dest, values)
