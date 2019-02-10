@@ -1609,7 +1609,7 @@ exit:
 static char *xperms_to_str(avtab_extended_perms_t *xperms)
 {
 	uint16_t value;
-	uint16_t low_bit;
+	uint16_t low_bit = 0;
 	uint16_t low_value;
 	unsigned int bit;
 	unsigned int in_range = 0;
