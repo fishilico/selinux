@@ -582,6 +582,22 @@ static char *selabel_sub(struct selabel_sub *ptr, const char *src)
 
 	while (ptr) {
 		if (strncmp(src, ptr->src, ptr->slen) == 0 ) {
+			if (ptr->wildcard) {
+				if (src[ptr->slen] == 0 || !strchr(src+ptr->slen, '/')) {
+					ptr = ptr->next;
+					continue;
+				}
+				for(len = ptr->slen + 1; src[len] && src[len] != '/'; len++)
+					;
+				if(!src[len]) {
+					ptr = ptr->next;
+					continue;
+				}
+				len++;
+				if (asprintf(&dst, "%s%s", ptr->dst, &src[len]) < 0)
+					return NULL;
+				return dst;
+			}
 			if (src[ptr->slen] == '/' ||
 			    src[ptr->slen] == 0) {
 				if ((src[ptr->slen] == '/') &&
@@ -607,6 +623,7 @@ static int selabel_subs_init(const char *path, struct selabel_digest *digest,
 	struct selabel_sub *list = NULL, *sub = NULL;
 	struct stat sb;
 	int status = -1;
+	int len;
 
 	*out_subs = NULL;
 	if (!cfg) {
@@ -631,6 +648,8 @@ static int selabel_subs_init(const char *path, struct selabel_digest *digest,
 		*ptr++ = '\0';
 		if (! *src) continue;
 
+		if(!strcmp("/*", src)) continue;
+
 		dst = ptr;
 		while (*dst && isspace(*dst))
 			dst++;
@@ -646,6 +665,15 @@ static int selabel_subs_init(const char *path, struct selabel_digest *digest,
 			goto err;
 		memset(sub, 0, sizeof(*sub));
 
+		len = strlen(src);
+		if(len < 2) continue;
+		if(src[len - 1] == '*') {
+			sub->wildcard = 1;
+			src[len - 1] = 0;
+			len--;
+		}
+		else
+			sub->wildcard = 0;
 		sub->src = strdup(src);
 		if (! sub->src)
 			goto err;

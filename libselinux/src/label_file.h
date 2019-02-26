@@ -39,6 +39,7 @@ struct selabel_sub {
 	char *src;
 	int slen;
 	char *dst;
+	int wildcard;
 	struct selabel_sub *next;
 };
 
