@@ -27,7 +27,7 @@
 # define UNUSED(x) x
 #endif
 
-#define SETRANS_UNIX_SOCKET "/var/run/setrans/.setrans-unix"
+#define SETRANS_UNIX_SOCKET "/run/setrans/.setrans-unix"
 
 #define SETRANS_INIT			1
 #define RAW_TO_TRANS_CONTEXT		2

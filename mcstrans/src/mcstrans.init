@@ -6,7 +6,7 @@
 # description: This starts the SELinux Context Translation System Daemon
 #
 # processname: /sbin/mcstransd
-# pidfile: /var/run/mcstransd.pid
+# pidfile: /run/mcstransd.pid
 #
 # Return values according to LSB for all commands but status:
 # 0 - success

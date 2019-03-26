@@ -196,7 +196,7 @@ extern void selinux_set_callback(int type, union selinux_callback cb);
 #define SELINUX_AVC		3
 #define SELINUX_POLICYLOAD	4
 #define SELINUX_SETENFORCE	5
-#define SELINUX_TRANS_DIR	"/var/run/setrans"
+#define SELINUX_TRANS_DIR	"/run/setrans"
 
 /* Compute an access decision. */
 extern int security_compute_av(const char * scon,
