@@ -15,6 +15,11 @@ jobs:
     - run: sudo apt-get update -qq
     - run: sudo apt-get install -qq bison clang clang-tools flex gawk gettext libaudit-dev libcap-dev libcap-ng-dev libcunit1-dev libdbus-glib-1-dev libpcre3-dev python3-dev python-dev ruby-dev swig xmlto
 
+    # Install Infer as documented in https://fbinfer.com/docs/getting-started.html
+    - run: sudo apt-get install -qq libncurses5
+    - run: curl -sSL "https://github.com/facebook/infer/releases/download/v0.17.0/infer-linux64-v0.17.0.tar.xz" | sudo tar -C /opt -xJ
+    - run: sudo ln -s "/opt/infer-linux64-v0.17.0/bin/infer" /usr/local/bin/infer
+
     - run:
         name: Setup environment variables
         command: |
@@ -38,3 +43,9 @@ jobs:
     - store_artifacts:
         path: scripts/output-scan-build
         destination: output-scan-build
+
+    # Run Facebook's Infer and store the result as artifacts
+    - run: ./scripts/run-infer
+    - store_artifacts:
+        path: scripts/infer-out
+        destination: infer-out

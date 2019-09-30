@@ -1,0 +1,54 @@
+#!/bin/sh
+# Run Facebook's Infer static analyzer (scan-build)
+# The output gets recorded in infer-out
+
+# Ensure the current directory is where this script is
+cd "$(dirname -- "$0")" || exit $?
+
+OUTPUTDIR="$(pwd)/infer-out"
+
+# Infer needs to be run from the root directory of the project in order to generate nice GitHub links
+cd .. || exit $?
+
+# Display the commands which are run, and make sure they succeed
+set -x -e
+
+# Use a temporary directory as an installation directory, if $DESTDIR is not set
+if [ -z "$DESTDIR" ] ; then
+    DESTDIR="$(mktemp --tmpdir -d infer-destdir-XXXXXXXXXX)"
+fi
+
+# Make sure to use the newly-installed libraries when running tests
+export LD_LIBRARY_PATH="$DESTDIR/usr/lib:$DESTDIR/lib"
+export PATH="$DESTDIR/usr/sbin:$DESTDIR/usr/bin:$DESTDIR/sbin:$DESTDIR/bin:$PATH"
+export PYTHONPATH="$DESTDIR$(${PYTHON:-python3} -c "from distutils.sysconfig import *;print(get_python_lib(prefix='/usr'))")"
+export RUBYLIB="$DESTDIR/$(${RUBY:-ruby} -e 'puts RbConfig::CONFIG["vendorlibdir"]'):$DESTDIR/$(${RUBY:-ruby} -e 'puts RbConfig::CONFIG["vendorarchdir"]')"
+
+# Ensure the project is currently clean
+make clean distclean -j"$(nproc)"
+
+# Build files that require being built with gcc before running Infer
+make -C libselinux/src CC=gcc selinuxswig_python_exception.i
+make -C libsemanage/src CC=gcc semanageswig_python_exception.i
+
+# Build and analyze
+# * Ignore dead store because some functions initialize a local variable for its return value with a constant which is then always erased in the implementation. Infer warns about such dead store even though they actually make the code more robust when it is being modified (a new return statement could forget initializing the local variable).
+# * Ignore memory and resource leaks because there are many false positives due to Infer not handling several constructor/destructor functions.
+infer run \
+    --results-dir "$OUTPUTDIR" \
+    --disable-issue-type DEAD_STORE \
+    --disable-issue-type MEMORY_LEAK \
+    --disable-issue-type RESOURCE_LEAK \
+    --keep-going \
+    -- make \
+        DESTDIR="$DESTDIR" \
+        CFLAGS="-O2 -Wall -D__CHECKER__ -I$DESTDIR/usr/include" \
+        install install-pywrap install-rubywrap all test
+
+# Produce a HTML report
+infer explore --html --results-dir "$OUTPUTDIR"
+
+# Reduce the verbosity and remove the destination directory without using "rm -rf"
+set +x
+chmod u+w "$DESTDIR/usr/bin/newrole"
+rm -r "$DESTDIR"
