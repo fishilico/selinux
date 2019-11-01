@@ -1,3 +1,5 @@
+PYTHON ?= python3
+
 # Installation directories.
 LINGUAS ?= ru
 PREFIX ?= /usr
@@ -54,6 +56,8 @@ install: all
 		install -m 644 sepolicy_$${i}.png $(DESTDIR)$(DATADIR)/icons/hicolor/$${i}x$${i}/apps/sepolicy.png; \
 	done
 	install -m 644 org.selinux.config.policy $(DESTDIR)$(DATADIR)/polkit-1/actions/
+	$(PYTHON) -m compileall $(DESTDIR)$(SHAREDIR)
+
 clean:
 
 indent:
