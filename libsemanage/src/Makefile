@@ -146,7 +146,7 @@ install-pywrap: pywrap
 	test -d $(DESTDIR)$(PYTHONLIBDIR) || install -m 755 -d $(DESTDIR)$(PYTHONLIBDIR)
 	install -m 755 $(SWIGSO) $(DESTDIR)$(PYTHONLIBDIR)/_semanage$(PYCEXT)
 	install -m 644 semanage.py $(DESTDIR)$(PYTHONLIBDIR)
-
+	$(PYTHON) -m compileall $(DESTDIR)$(PYTHONLIBDIR)/semanage.py
 
 install-rubywrap: rubywrap
 	test -d $(DESTDIR)$(RUBYINSTALL) || install -m 755 -d $(DESTDIR)$(RUBYINSTALL) 
