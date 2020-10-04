@@ -274,3 +274,8 @@ LIBSEPOL_3.0 {
 	cil_write_resolve_ast;
 	cil_set_qualified_names;
 } LIBSEPOL_1.1;
+
+LIBSEPOL_3.2 {
+  global:
+	sepol_format_av;
+} LIBSEPOL_1.1;

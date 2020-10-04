@@ -439,6 +439,8 @@ struct bounds_args {
 static void bounds_report(sepol_handle_t *handle, policydb_t *p, uint32_t child,
 			  uint32_t parent, avtab_ptr_t cur)
 {
+	char avbuf[1024];
+
 	ERR(handle, "Child type %s exceeds bounds of parent %s in the following rules:",
 	    p->p_type_val_to_name[child - 1],
 	    p->p_type_val_to_name[parent - 1]);
@@ -447,8 +449,8 @@ static void bounds_report(sepol_handle_t *handle, policydb_t *p, uint32_t child,
 		    p->p_type_val_to_name[cur->key.source_type - 1],
 		    p->p_type_val_to_name[cur->key.target_type - 1],
 		    p->p_class_val_to_name[cur->key.target_class - 1],
-		    sepol_av_to_string(p, cur->key.target_class,
-				       cur->datum.data));
+		    sepol_format_av(p, cur->key.target_class, cur->datum.data,
+				    avbuf, sizeof(avbuf)));
 	}
 }
 

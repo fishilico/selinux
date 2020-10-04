@@ -77,38 +77,38 @@ static int perm_name(hashtab_key_t key, hashtab_datum_t datum, void *data)
 	return 0;
 }
 
-char *sepol_av_to_string(policydb_t * policydbp, uint32_t tclass,
-			 sepol_access_vector_t av)
+char *sepol_format_av(policydb_t *policydbp, uint32_t tclass,
+		      sepol_access_vector_t av, char *buffer,
+		      size_t buffer_size)
 {
 	struct val_to_name v;
-	static char avbuf[1024];
 	class_datum_t *cladatum;
 	char *perm = NULL, *p;
 	unsigned int i;
 	int rc;
-	int avlen = 0, len;
+	size_t avlen = 0;
+	int len;
 
-	memset(avbuf, 0, sizeof avbuf);
+	memset(buffer, 0, buffer_size);
 	cladatum = policydbp->class_val_to_struct[tclass - 1];
-	p = avbuf;
+	p = buffer;
 	for (i = 0; i < cladatum->permissions.nprim; i++) {
 		if (av & (1 << i)) {
 			v.val = i + 1;
-			rc = hashtab_map(cladatum->permissions.table,
-					 perm_name, &v);
+			rc = hashtab_map(cladatum->permissions.table, perm_name,
+					 &v);
 			if (!rc && cladatum->comdatum) {
-				rc = hashtab_map(cladatum->comdatum->
-						 permissions.table, perm_name,
-						 &v);
+				rc = hashtab_map(
+					cladatum->comdatum->permissions.table,
+					perm_name, &v);
 			}
 			if (rc)
 				perm = v.name;
 			if (perm) {
-				len =
-				    snprintf(p, sizeof(avbuf) - avlen, " %s",
-					     perm);
-				if (len < 0
-				    || (size_t) len >= (sizeof(avbuf) - avlen))
+				len = snprintf(p, buffer_size - avlen, " %s",
+					       perm);
+				if (len < 0 ||
+				    (size_t)len >= buffer_size - avlen)
 					return NULL;
 				p += len;
 				avlen += len;
@@ -116,7 +116,15 @@ char *sepol_av_to_string(policydb_t * policydbp, uint32_t tclass,
 		}
 	}
 
-	return avbuf;
+	return buffer;
+}
+
+char *sepol_av_to_string(policydb_t *policydbp, uint32_t tclass,
+			 sepol_access_vector_t av)
+{
+	static char avbuf[1024];
+
+	return sepol_format_av(policydbp, tclass, av, avbuf, sizeof(avbuf));
 }
 
 #define next_bit_in_range(i, p) ((i + 1 < sizeof(p)*8) && xperm_test((i + 1), p))

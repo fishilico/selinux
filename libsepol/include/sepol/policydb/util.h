@@ -29,8 +29,16 @@ extern "C" {
 
 extern int add_i_to_a(uint32_t i, uint32_t * cnt, uint32_t ** a);
 
-extern char *sepol_av_to_string(policydb_t * policydbp, uint32_t tclass,
-				sepol_access_vector_t av);
+extern char *sepol_format_av(policydb_t *policydbp, uint32_t tclass,
+			     sepol_access_vector_t av, char *buffer,
+			     size_t buffer_size);
+
+extern char *sepol_av_to_string(policydb_t *policydbp, uint32_t tclass,
+				sepol_access_vector_t av)
+#ifdef __GNUC__
+	__attribute__((deprecated("Use sepol_av_to_string")))
+#endif
+;
 
 char *sepol_extended_perms_to_string(avtab_extended_perms_t *xperms);
 
