@@ -36,7 +36,7 @@ extern char *sepol_format_av(policydb_t *policydbp, uint32_t tclass,
 extern char *sepol_av_to_string(policydb_t *policydbp, uint32_t tclass,
 				sepol_access_vector_t av)
 #ifdef __GNUC__
-	__attribute__((deprecated("Use sepol_av_to_string")))
+	//__attribute__((deprecated("Use sepol_av_to_string")))
 #endif
 ;
 
