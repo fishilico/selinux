@@ -29,7 +29,15 @@ LOBJS += $(sort $(patsubst %.c,%.lo,$(sort $(wildcard $(CILDIR)/src/*.c)) $(CIL_
 override CFLAGS += -I$(CILDIR)/include
 endif
 
+ifeq ($(ENABLE_LIBFUZZER),y)
+LIBFUZZER_FLAGS ?= -g -fsanitize=address,undefined
+override CFLAGS += -fsanitize=fuzzer-no-link $(LIBFUZZER_FLAGS)
+override LDFLAGS += $(LIBFUZZER_FLAGS)
+# When using sanitizers, some symbols are not defined in the .so
+LD_SONAME_FLAGS=-soname,$(LIBSO),--version-script=$(LIBMAP)
+else
 LD_SONAME_FLAGS=-soname,$(LIBSO),--version-script=$(LIBMAP),-z,defs
+endif
 
 LN=ln
 OS := $(shell uname)
