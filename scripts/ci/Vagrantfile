@@ -44,5 +44,8 @@ Vagrant.configure("2") do |config|
      v.memory = 4096
   end
 
+  # Increase the boot timeout for GitHub Actions environment
+  config.vm.boot_timeout = 600
+
   config.vm.provision :shell, inline: $script
 end
