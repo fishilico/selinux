@@ -24,29 +24,16 @@
 #
 
 import argparse
+import gettext
 import os
 import re
 import seobject
 import sys
 import traceback
 
+
 PROGNAME = "policycoreutils"
-try:
-    import gettext
-    kwargs = {}
-    if sys.version_info < (3,):
-        kwargs['unicode'] = True
-    gettext.install(PROGNAME,
-                    localedir="/usr/share/locale",
-                    codeset='utf-8',
-                    **kwargs)
-except ImportError:
-    try:
-        import builtins
-        builtins.__dict__['_'] = str
-    except ImportError:
-        import __builtin__
-        __builtin__.__dict__['_'] = unicode
+gettext.install(PROGNAME, localedir="/usr/share/locale")
 
 # define custom usages for selected main actions
 usage_login = "semanage login [-h] [-n] [-N] [-S STORE] ["
