@@ -3910,7 +3910,7 @@ static int range_trans_rule_read(range_trans_rule_t ** r,
 	return 0;
 }
 
-static int scope_index_read(policydb_t * p, scope_index_t * scope_index,
+static int scope_index_read(scope_index_t * scope_index,
 			    unsigned int num_scope_syms, struct policy_file *fp)
 {
 	unsigned int i;
@@ -3918,7 +3918,7 @@ static int scope_index_read(policydb_t * p, scope_index_t * scope_index,
 	int rc;
 
 	for (i = 0; i < num_scope_syms; i++) {
-		if (ebitmap_read_bounded(scope_index->scope + i, p->symtab[i].nprim, fp) < 0) {
+		if (ebitmap_read(scope_index->scope + i, fp) < 0) {
 			return -1;
 		}
 	}
@@ -3970,8 +3970,8 @@ static int avrule_decl_read(policydb_t * p, avrule_decl_t * decl,
 	    range_trans_rule_read(&decl->range_tr_rules, fp) == -1) {
 		return -1;
 	}
-	if (scope_index_read(p, &decl->required, num_scope_syms, fp) == -1 ||
-	    scope_index_read(p, &decl->declared, num_scope_syms, fp) == -1) {
+	if (scope_index_read(&decl->required, num_scope_syms, fp) == -1 ||
+	    scope_index_read(&decl->declared, num_scope_syms, fp) == -1) {
 		return -1;
 	}
 
