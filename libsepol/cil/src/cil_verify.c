@@ -995,6 +995,7 @@ exit:
 	return rc;
 }
 
+/*
 static int __cil_verify_rule(struct cil_tree_node *node, struct cil_complex_symtab *symtab)
 {
 
@@ -1041,6 +1042,7 @@ exit:
 	cil_tree_log(node, CIL_ERR, "Invalid rule");
 	return rc;
 }
+*/
 
 static int __cil_verify_booleanif_helper(struct cil_tree_node *node, __attribute__((unused)) uint32_t *finished, __attribute__((unused)) void *extra_args)
 {
