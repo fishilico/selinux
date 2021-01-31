@@ -366,23 +366,6 @@ int cil_post_nodecon_compare(const void *a, const void *b)
 	}
 }
 
-int cil_post_pirqcon_compare(const void *a, const void *b)
-{
-	int rc = SEPOL_ERR;
-	struct cil_pirqcon *apirqcon = *(struct cil_pirqcon**)a;
-	struct cil_pirqcon *bpirqcon = *(struct cil_pirqcon**)b;
-
-	if (apirqcon->pirq < bpirqcon->pirq) {
-		rc = -1;
-	} else if (bpirqcon->pirq < apirqcon->pirq) {
-		rc = 1;
-	} else {
-		rc = 0;
-	}
-
-	return rc;
-}
-
 int cil_post_iomemcon_compare(const void *a, const void *b)
 {
 	int rc = SEPOL_ERR;
@@ -518,13 +501,6 @@ int cil_post_nodecon_context_compare(const void *a, const void *b)
 	struct cil_nodecon *a_nodecon = *(struct cil_nodecon **)a;
 	struct cil_nodecon *b_nodecon = *(struct cil_nodecon **)b;
 	return context_compare(a_nodecon->context, b_nodecon->context);
-}
-
-int cil_post_pirqcon_context_compare(const void *a, const void *b)
-{
-	struct cil_pirqcon *a_pirqcon = *(struct cil_pirqcon**)a;
-	struct cil_pirqcon *b_pirqcon = *(struct cil_pirqcon**)b;
-	return context_compare(a_pirqcon->context, b_pirqcon->context);
 }
 
 int cil_post_iomemcon_context_compare(const void *a, const void *b)
