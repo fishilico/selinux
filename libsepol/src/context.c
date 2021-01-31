@@ -2,6 +2,7 @@
 #include <string.h>
 #include <errno.h>
 
+#include <sepol/context.h>
 #include <sepol/policydb/policydb.h>
 #include <sepol/policydb/services.h>
 #include "context_internal.h"

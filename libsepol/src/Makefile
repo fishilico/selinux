@@ -47,6 +47,8 @@ LDFLAGS += -undefined dynamic_lookup
 LN=gln
 endif
 
+override CFLAGS += -Wmissing-declarations -Wmissing-prototypes
+
 # Compiler flags, using cc-disable-warning from Linux's scripts/Kbuild.include
 try-run = $(shell set -e; if ($(1)) >/dev/null 2>&1; then echo "$(2)"; else echo "$(3)"; fi)
 cc-disable-warning = $(call try-run,$(CC) -Werror -W$(strip $(1)) -E - < /dev/null,-Wno-$(strip $(1)))
