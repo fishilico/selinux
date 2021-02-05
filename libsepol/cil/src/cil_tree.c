@@ -111,13 +111,13 @@ __attribute__((format (printf, 3, 4))) void cil_tree_log(struct cil_tree_node *n
 		path = cil_tree_get_cil_path(node);
 
 		if (path != NULL) {
-			cil_log(lvl, " at %s:%d", path, node->line);
+			cil_log(lvl, " at %s:%u", path, node->line);
 		}
 
 		while (node) {
 			node = cil_tree_get_next_path(node, &path, &is_cil);
 			if (node && !is_cil) {
-				cil_log(lvl," from %s:%d", path, hll_line);
+				cil_log(lvl," from %s:%u", path, hll_line);
 				path = NULL;
 				hll_line = node->hll_line;
 			}

@@ -172,7 +172,7 @@ static void CuFailInternal(CuTest* tc, const char* file, int line, CuString* str
 {
 	char buf[HUGE_STRING_LEN];
 
-	sprintf(buf, "%s:%d: ", file, line);
+	sprintf(buf, "%s:%u: ", file, line);
 	CuStringInsert(string, buf, 0);
 
 	tc->failed = 1;

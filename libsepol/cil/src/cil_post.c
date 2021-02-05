@@ -2247,7 +2247,7 @@ static int __cil_post_report_conflict(struct cil_tree_node *node, uint32_t *fini
 	} else if (node->flavor == li->flavor) {
 		if (node->data == li->data) {
 			char *path = cil_tree_get_cil_path(node);
-			cil_log(CIL_WARN, "  at %s:%d\n", path, node->line);
+			cil_log(CIL_WARN, "  at %s:%u\n", path, node->line);
 		}
 	}
 	return SEPOL_OK;
