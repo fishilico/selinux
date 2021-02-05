@@ -824,19 +824,15 @@ static int role_fix_callback(hashtab_key_t key, hashtab_datum_t datum,
 	return 0;
 }
 
-static int role_copy_callback(hashtab_key_t key, hashtab_datum_t datum,
-			      void *data)
+static int role_copy_callback_helper(char *id, role_datum_t *role, expand_state_t *state, unsigned int copy_attr)
 {
 	int ret;
-	char *id, *new_id;
-	role_datum_t *role;
+	char *new_id;
 	role_datum_t *new_role;
-	expand_state_t *state;
 	ebitmap_t tmp_union_types;
 
-	id = key;
-	role = (role_datum_t *) datum;
-	state = (expand_state_t *) data;
+	if ((!copy_attr && role->flavor == ROLE_ATTRIB) || (copy_attr && role->flavor != ROLE_ATTRIB))
+		return 0;
 
 	if (strcmp(id, OBJECT_R) == 0) {
 		/* object_r is always value 1 */
@@ -911,6 +907,26 @@ static int role_copy_callback(hashtab_key_t key, hashtab_datum_t datum,
 	ebitmap_destroy(&tmp_union_types);
 
 	return 0;
+}
+
+static int role_copy_callback(hashtab_key_t key, hashtab_datum_t datum,
+			      void *data)
+{
+	char *id = key;
+	role_datum_t *role = (role_datum_t *) datum;
+	expand_state_t *state = (expand_state_t *) data;
+
+	return role_copy_callback_helper(id, role, state, 0);
+}
+
+static int role_attr_copy_callback(hashtab_key_t key, hashtab_datum_t datum,
+			      void *data)
+{
+	char *id = key;
+	role_datum_t *role = (role_datum_t *) datum;
+	expand_state_t *state = (expand_state_t *) data;
+
+	return role_copy_callback_helper(id, role, state, 1);
 }
 
 int mls_semantic_level_expand(mls_semantic_level_t * sl, mls_level_t * l,
@@ -3049,6 +3065,9 @@ int expand_module(sepol_handle_t * handle,
 	/* copy roles */
 	if (hashtab_map(state.base->p_roles.table, role_copy_callback, &state))
 		goto cleanup;
+	/* copy role attrs */
+	if (hashtab_map(state.base->p_roles.table, role_attr_copy_callback, &state))
+		goto cleanup;
 	if (hashtab_map(state.base->p_roles.table,
 			role_bounds_copy_callback, &state))
 		goto cleanup;
@@ -3103,6 +3122,11 @@ int expand_module(sepol_handle_t * handle,
 		/* copy roles */
 		if (hashtab_map
 		    (decl->p_roles.table, role_copy_callback, &state))
+			goto cleanup;
+
+		/* copy role attrs */
+		if (hashtab_map
+		    (decl->p_roles.table, role_attr_copy_callback, &state))
 			goto cleanup;
 
 		/* copy users */

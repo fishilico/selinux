@@ -2321,8 +2321,10 @@ int policydb_write(policydb_t * p, struct policy_file *fp)
 		if ((i == SYM_ROLES) &&
 		    ((p->policy_type == POLICY_KERN) ||
 		     (p->policy_type != POLICY_KERN &&
-		      p->policyvers < MOD_POLICYDB_VERSION_ROLEATTRIB)))
-			(void)hashtab_map(p->symtab[i].table, role_attr_uncount, &buf[1]);
+			  p->policyvers < MOD_POLICYDB_VERSION_ROLEATTRIB))) {
+			hashtab_map(p->symtab[i].table, role_attr_uncount, &buf[1]);
+			buf[0] -= p->symtab[i].table->nel - buf[1];
+		}
 
 		buf[1] = cpu_to_le32(buf[1]);
 		items = put_entry(buf, sizeof(uint32_t), 2, fp);
