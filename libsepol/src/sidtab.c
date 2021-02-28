@@ -27,7 +27,7 @@ int sepol_sidtab_init(sidtab_t * s)
 {
 	int i;
 
-	s->htable = malloc(sizeof(sidtab_ptr_t) * SIDTAB_SIZE);
+	s->htable = calloc(SIDTAB_SIZE, sizeof(sidtab_ptr_t));
 	if (!s->htable)
 		return -ENOMEM;
 	for (i = 0; i < SIDTAB_SIZE; i++)

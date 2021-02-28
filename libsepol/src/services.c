@@ -712,7 +712,7 @@ mls_ops:
 	 * Generate the same number of answer buffer entries as expression
 	 * buffers (as there will never be more).
 	 */
-	answer_list = malloc(expr_count * sizeof(*answer_list));
+	answer_list = calloc(expr_count, sizeof(*answer_list));
 	if (!answer_list) {
 		ERR(NULL, "failed to allocate answer stack");
 		rc = -ENOMEM;
@@ -2166,7 +2166,7 @@ int sepol_get_user_sids(sepol_security_id_t fromsid,
 	}
 	usercon.user = user->s.value;
 
-	mysids = malloc(maxnel * sizeof(sepol_security_id_t));
+	mysids = calloc(maxnel, sizeof(sepol_security_id_t));
 	if (!mysids) {
 		rc = -ENOMEM;
 		goto out;
@@ -2202,7 +2202,7 @@ int sepol_get_user_sids(sepol_security_id_t fromsid,
 			} else {
 				maxnel += SIDS_NEL;
 				mysids2 =
-				    malloc(maxnel *
+				    calloc(maxnel,
 					   sizeof(sepol_security_id_t));
 
 				if (!mysids2) {

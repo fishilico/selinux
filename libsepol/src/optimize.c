@@ -42,7 +42,7 @@ static int type_vec_init(struct type_vec *v)
 {
 	v->capacity = TYPE_VEC_INIT_SIZE;
 	v->count = 0;
-	v->types = malloc(v->capacity * sizeof(*v->types));
+	v->types = calloc(v->capacity, sizeof(*v->types));
 	if (!v->types)
 		return -1;
 	return 0;
@@ -93,7 +93,7 @@ static struct type_vec *build_type_map(const policydb_t *p)
 {
 	unsigned int i, k;
 	ebitmap_node_t *n;
-	struct type_vec *map = malloc(p->p_types.nprim * sizeof(*map));
+	struct type_vec *map = calloc(p->p_types.nprim, sizeof(*map));
 	if (!map)
 		return NULL;
 

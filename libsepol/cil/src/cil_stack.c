@@ -40,7 +40,7 @@
 void cil_stack_init(struct cil_stack **stack)
 {
 	struct cil_stack *new_stack = cil_malloc(sizeof(*new_stack));
-	new_stack->stack = cil_malloc(sizeof(*(new_stack->stack)) * CIL_STACK_INIT_SIZE);
+	new_stack->stack = cil_calloc(CIL_STACK_INIT_SIZE, sizeof(*(new_stack->stack)));
 	new_stack->size = CIL_STACK_INIT_SIZE;
 	new_stack->pos = -1;
 	*stack = new_stack;

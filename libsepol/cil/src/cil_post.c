@@ -664,7 +664,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 	case CIL_TYPE: {
 		struct cil_type *type = node->data;
 		if (db->val_to_type == NULL) {
-			db->val_to_type = cil_malloc(sizeof(*db->val_to_type) * db->num_types);
+			db->val_to_type = cil_calloc(db->num_types, sizeof(*db->val_to_type));
 		}
 		db->val_to_type[type->value] = type;
 		break;
@@ -672,7 +672,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 	case CIL_ROLE: {
 		struct cil_role *role = node->data;
 		if (db->val_to_role == NULL) {
-			db->val_to_role = cil_malloc(sizeof(*db->val_to_role) * db->num_roles);
+			db->val_to_role = cil_calloc(db->num_roles, sizeof(*db->val_to_role));
 		}
 		db->val_to_role[role->value] = role;
 		break;
@@ -680,7 +680,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 	case CIL_USER: {
 		struct cil_user *user= node->data;
 		if (db->val_to_user == NULL) {
-			db->val_to_user = cil_malloc(sizeof(*db->val_to_user) * db->num_users);
+			db->val_to_user = cil_calloc(db->num_users, sizeof(*db->val_to_user));
 		}
 		db->val_to_user[user->value] = user;
 		break;
@@ -702,7 +702,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -713,8 +713,9 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 
-		if (!sort->array)
-			sort->array = cil_malloc(sizeof(*sort->array) * count);
+		if (sort->array == NULL) {
+			sort->array = cil_calloc(count, sizeof(*sort->array));
+		}
 		sort->array[i] = node->data;
 		sort->index++;
 		break;
@@ -724,7 +725,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -735,7 +736,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -746,7 +747,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-		sort->array = cil_malloc(sizeof(*sort->array)*count);
+		sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -757,7 +758,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -768,8 +769,9 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 
-		if (!sort->array)
-			sort->array = cil_malloc(sizeof(*sort->array) * count);
+		if (sort->array == NULL) {
+			sort->array = cil_calloc(count, sizeof(*sort->array));
+		}
 		sort->array[i] = node->data;
 		sort->index++;
 		break;
@@ -779,7 +781,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -790,7 +792,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -801,7 +803,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -812,7 +814,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -823,7 +825,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
@@ -834,7 +836,7 @@ static int __cil_post_db_array_helper(struct cil_tree_node *node, uint32_t *fini
 		uint32_t count = sort->count;
 		uint32_t i = sort->index;
 		if (sort->array == NULL) {
-			sort->array = cil_malloc(sizeof(*sort->array)*count);
+			sort->array = cil_calloc(count, sizeof(*sort->array));
 		}
 		sort->array[i] = node->data;
 		sort->index++;
