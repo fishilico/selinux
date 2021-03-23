@@ -69,6 +69,7 @@ static int exclude_count = 0;
 static struct edir *exclude_lst = NULL;
 static uint64_t fc_count = 0;	/* Number of files processed so far */
 static uint64_t efile_count;	/* Estimated total number of files */
+static pthread_mutex_t progress_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /* Store information on directories with xattr's. */
 static struct dir_xattr *dir_xattr_list;
@@ -657,6 +658,7 @@ static int restorecon_sb(const char *pathname, const struct stat *sb,
 	}
 
 	if (flags->progress) {
+		__pthread_mutex_lock(&progress_mutex);
 		fc_count++;
 		if (fc_count % STAR_COUNT == 0) {
 			if (flags->mass_relabel && efile_count > 0) {
@@ -668,6 +670,7 @@ static int restorecon_sb(const char *pathname, const struct stat *sb,
 			}
 			fflush(stdout);
 		}
+		__pthread_mutex_unlock(&progress_mutex);
 	}
 
 	if (flags->add_assoc) {
