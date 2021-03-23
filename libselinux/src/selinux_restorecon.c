@@ -46,6 +46,15 @@ static bool selabel_no_digest;
 static char *rootpath = NULL;
 static int rootpathlen;
 
+/* Thread-safe log function for parallel restorecon */
+static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+#define selinux_log_sync(type, ...) do { \
+	__pthread_mutex_lock(&log_mutex); \
+	selinux_log(type, __VA_ARGS__); \
+	__pthread_mutex_unlock(&log_mutex); \
+} while(0)
+
 /* Information on excluded fs and directories. */
 struct edir {
 	char *directory;
@@ -454,7 +463,7 @@ static int filespec_add(ino_t ino, const char *con, const char *file,
 			if (strcmp(fl->con, con) == 0)
 				goto unlock_1;
 
-			selinux_log(SELINUX_ERROR,
+			selinux_log_sync(SELINUX_ERROR,
 				"conflicting specifications for %s and %s, using %s.\n",
 				file, fl->file, fl->con);
 			free(fl->file);
@@ -465,7 +474,7 @@ static int filespec_add(ino_t ino, const char *con, const char *file,
 			__pthread_mutex_unlock(&fl_mutex);
 
 			if (flags->conflicterror) {
-				selinux_log(SELINUX_ERROR,
+				selinux_log_sync(SELINUX_ERROR,
 				"treating conflicting specifications as an error.\n");
 				return -1;
 			}
@@ -496,7 +505,7 @@ oom_freefl:
 	free(fl);
 oom:
 	__pthread_mutex_unlock(&fl_mutex);
-	selinux_log(SELINUX_ERROR, "%s:  Out of memory\n", __func__);
+	selinux_log_sync(SELINUX_ERROR, "%s:  Out of memory\n", __func__);
 	return -1;
 unlock_1:
 	__pthread_mutex_unlock(&fl_mutex);
