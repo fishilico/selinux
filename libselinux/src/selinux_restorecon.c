@@ -863,7 +863,7 @@ static void *selinux_restorecon_thread(void *arg)
 		goto loop_body;
 	}
 
-	while ((errno = 0, ftsent = fts_read(fts)) != NULL) {
+	while (((void)(errno = 0), ftsent = fts_read(fts)) != NULL) {
 loop_body:
 		/* If the FTS_XDEV flag is set and the device is different */
 		if (state->flags.set_xdev &&
