@@ -89,8 +89,6 @@ int cil_resolve_sidcontext(struct cil_tree_node *current, void *extra_args);
 int cil_resolve_sidorder(struct cil_tree_node *current, void *extra_args);
 int cil_resolve_blockinherit(struct cil_tree_node *current, void *extra_args);
 int cil_resolve_in(struct cil_tree_node *current, void *extra_args);
-int cil_resolve_call1(struct cil_tree_node *current, void *extra_args);
-int cil_resolve_call2(struct cil_tree_node *, void *extra_args);
 int cil_resolve_name_call_args(struct cil_call *call, char *name, enum cil_sym_index sym_index, struct cil_symtab_datum **datum);
 int cil_resolve_expr(enum cil_flavor expr_type, struct cil_list *str_expr, struct cil_list **datum_expr, struct cil_tree_node *parent, void *extra_args);
 int cil_resolve_boolif(struct cil_tree_node *current, void *extra_args);

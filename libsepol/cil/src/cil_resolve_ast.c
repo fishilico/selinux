@@ -3004,7 +3004,7 @@ exit:
 	return rc;
 }
 
-int cil_resolve_call(struct cil_tree_node *current, void *extra_args)
+static int cil_resolve_call(struct cil_tree_node *current, void *extra_args)
 {
 	struct cil_call *call = current->data;
 	struct cil_args_resolve *args = extra_args;
@@ -3054,7 +3054,7 @@ exit:
 	return rc;
 }
 
-int cil_resolve_call_args(struct cil_tree_node *current, void *extra_args)
+static int cil_resolve_call_args(struct cil_tree_node *current, void *extra_args)
 {
 	struct cil_call *call = current->data;
 	int rc = SEPOL_ERR;
