@@ -567,7 +567,11 @@ void cil_write_ast_node(FILE *out, struct cil_tree_node *node)
 	}
 	case CIL_BLOCKINHERIT: {
 		struct cil_blockinherit *inherit = node->data;
-		fprintf(out, "(blockinherit %s)\n", datum_or_str(DATUM(inherit->block), inherit->block_str));
+		if (!node->cl_head) {
+			fprintf(out, "(blockinherit %s)\n", datum_or_str(DATUM(inherit->block), inherit->block_str));
+		} else {
+			fprintf(out, "( ; blockinherit %s\n", datum_or_str(DATUM(inherit->block), inherit->block_str));
+		}
 		break;
 	}
 	case CIL_IN: {
