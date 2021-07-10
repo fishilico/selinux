@@ -1905,8 +1905,8 @@ int avrule_read_ioctls(struct av_ioctl_range_list **rangehead)
 	char *id;
 	struct av_ioctl_range_list *rnew, *r = NULL;
 	uint8_t omit = 0;
-	
-	*rangehead = NULL;	
+
+	*rangehead = NULL;
 
 	*rangehead = NULL;
 
