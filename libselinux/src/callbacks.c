@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <selinux/selinux.h>
 #include "callbacks.h"
+#include "avc_internal.h"
 
 /* default implementations */
 static int __attribute__ ((format(printf, 2, 3)))
@@ -94,6 +95,18 @@ selinux_set_callback(int type, union selinux_callback cb)
 		break;
 	case SELINUX_CB_POLICYLOAD:
 		selinux_netlink_policyload = cb.func_policyload;
+		break;
+	case SELINUX_CB_ALLOC_LOCK:
+		avc_func_alloc_lock = cb.func_alloc_lock;
+		break;
+	case SELINUX_CB_GET_LOCK:
+		avc_func_get_lock = cb.func_get_lock;
+		break;
+	case SELINUX_CB_RELEASE_LOCK:
+		avc_func_release_lock = cb.func_release_lock;
+		break;
+	case SELINUX_CB_FREE_LOCK:
+		avc_func_free_lock = cb.func_free_lock;
 		break;
 	}
 }

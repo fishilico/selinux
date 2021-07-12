@@ -9,6 +9,7 @@
 #ifndef _SELINUX_AVC_INTERNAL_H_
 #define _SELINUX_AVC_INTERNAL_H_
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -112,26 +113,39 @@ static inline void avc_stop_thread(void *thread)
 		avc_func_stop_thread(thread);
 }
 
+static inline void check_lock_callbacks(void)
+{
+    if (avc_func_alloc_lock || avc_func_get_lock
+            || avc_func_release_lock || avc_func_free_lock) {
+        assert(avc_func_alloc_lock && avc_func_get_lock
+                && avc_func_release_lock && avc_func_free_lock);
+    }
+}
+
 static inline void *avc_alloc_lock(void)
 {
+	check_lock_callbacks();
 	return avc_func_alloc_lock ? avc_func_alloc_lock() : NULL;
 }
 
 static inline void avc_get_lock(void *lock)
 {
-	if (avc_func_get_lock)
+	check_lock_callbacks();
+	if (avc_func_get_lock && lock)
 		avc_func_get_lock(lock);
 }
 
 static inline void avc_release_lock(void *lock)
 {
-	if (avc_func_release_lock)
+	check_lock_callbacks();
+	if (avc_func_release_lock && lock)
 		avc_func_release_lock(lock);
 }
 
 static inline void avc_free_lock(void *lock)
 {
-	if (avc_func_free_lock)
+	check_lock_callbacks();
+	if (avc_func_free_lock && lock)
 		avc_func_free_lock(lock);
 }
 

@@ -166,6 +166,14 @@ __attribute__ ((format(printf, 2, 3)))
 	int (*func_setenforce) (int enforcing);
 	/* netlink callback for policyload message */
 	int (*func_policyload) (int seqno);
+	/* create a lock and return an opaque pointer to it */
+	void *(*func_alloc_lock) (void);
+	/* obtain a given lock, blocking if necessary */
+	void (*func_get_lock) (void *lock);
+	/* release a given lock */
+	void (*func_release_lock) (void *lock);
+	/* destroy a given lock */
+	void (*func_free_lock) (void *lock);
 };
 
 #define SELINUX_CB_LOG		0
@@ -173,6 +181,10 @@ __attribute__ ((format(printf, 2, 3)))
 #define SELINUX_CB_VALIDATE	2
 #define SELINUX_CB_SETENFORCE	3
 #define SELINUX_CB_POLICYLOAD	4
+#define SELINUX_CB_ALLOC_LOCK   5
+#define SELINUX_CB_GET_LOCK     6
+#define SELINUX_CB_RELEASE_LOCK 7
+#define SELINUX_CB_FREE_LOCK    8
 
 extern union selinux_callback selinux_get_callback(int type);
 extern void selinux_set_callback(int type, union selinux_callback cb);

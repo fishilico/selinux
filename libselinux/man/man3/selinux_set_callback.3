@@ -116,6 +116,52 @@ The
 .I seqno
 argument is the current sequential number of the policy generation in the system.
 .
+.TP
+.B SELINUX_CB_ALLOC_LOCK
+.BI "void *(*" alloc_lock ") ();"
+
+This callback is used to allocate a fresh lock for protecting critical sections.
+Applications that call selinux library functions from multiple threads must either
+perform their own locking or set each of the following:
+
+.B SELINUX_CB_ALLOC_LOCK
+
+.B SELINUX_CB_GET_LOCK
+
+.B SELINUX_CB_RELEASE_LOCK
+
+.B SELINUX_CB_FREE_LOCK
+
+.TP
+.B SELINUX_CB_GET_LOCK
+.BI "void (*" get_lock ") (void *" lock ");"
+
+This callback acquires the
+.I lock
+that was previously allocated with
+.I alloc_lock.
+This function must block until the
+.I lock
+can be acquired.
+.
+.TP
+.B SELINUX_CB_RELEASE_LOCK
+.BI "void (*" release_lock ") (void *" lock ");"
+
+This callback releases the
+.I lock
+that was previously acquired with
+.I get_lock.
+.
+.TP
+.B SELINUX_CB_FREE_LOCK
+.BI "void (*" free_lock ") (void *" lock ");"
+
+This callback frees the
+.I lock
+that was previously allocated with
+.I alloc_lock.
+.
 .SH "RETURN VALUE"
 None.
 .
